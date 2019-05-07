@@ -1,0 +1,63 @@
+Continuidade (Operador LIKE)
+------------  --------------
+
+
+
+SELECT * FROM  cadfun WHERE
+DEPTO IN ('2','3');
+SELECT * FROM cadfun WHERE
+DEPTO NOT IN ('2','3');
+
+	O operador LIKE é ainda mais poderoso, pois pode trabalhar com dois caracteres coringas:
+	% (porcentagem) significa qualquer quantidade (0,1,2...)
+	de caracteres combinando, (alguns BD's usam * asterisco);
+	_(sublinhado)- significa apenas um caractere igual.
+
+	Estes caracteres podem ser usados no início, meio e fim do campo, permitindo inúmeras situações
+	e combinações. Alguns exemplos:
+
+Exemplo: 	
+	
+	Where			Operação
+	Salario LIKE '11%'	Encontram valores que começam com 11	
+	Salario LIKE '%8%'	Encontram valores que tenham 8 em qualquer posição
+	Salario LIKE '_0%'	Encontram valores que tenham 0 na segunda posição  
+	Salario LIKE '1_%_%'	Encontram valores que começam com 1 e tenham 3 Caracteres de comprimento (?? no mínimo ??)
+	Salario LIKE '%6'	Encontra valor que termina com 6
+	Salario LIKE '_1%6	Encontra valores que tenham 1 na segunda posição e termine com 6
+
+	
+Alguns comandos a seguir para utilizar-mos o operador LIKE:
+
+	SELECT * FROM cadfun WHERE nome LIKE 'A%';
+	SELECT * FROM cadfun WHERE nome LIKE '_A%';
+	SELECT * FROM cadfun WHERE nome LIKE '%AN%';  (atenção se você não colocar as aspas simples '' o código não funcionará).
+	SELECT * FROM cadfun WHERE salario LIKE '%6'; 
+	SELECT * FROM cadfun WHERE salario LIKE '_5%2';
+	SELECT * FROM cadfun WHERE nome NOT LIKE '%AN%'; ->(esse código irá trazer qualquer informação que não possua AN em qualquer posição).
+
+
+	(sempre as duas condições devem ser verdadeiras para que o código funcione). Exemplo:
+
+	valor1 -  1256
+	valor2 - 156862
+	valor3 - 1544
+	valor4 - 158482
+	
+	SELECT * FROM cadfun WHERE salario LIKE '_5%2'; - esse código executará a busca somente pelos valores (valor2 e valor4). 
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+	     	
+		 
