@@ -43,6 +43,9 @@ qtde_item int not null,
 pco_vda decimal(8,2)not null
 )
 GO
+CREATE TABLE tb_vendas_canceladas (id_venda_cancelada INT PRIMARY KEY IDENTITY(1,1),
+id_vendas INT UNIQUE NOT NULL FOREIGN KEY REFERENCES tb_vendas(id_venda))
+GO
 
 ALTER TABLE tb_vendas ADD CONSTRAINT fk_vda_cli
 FOREIGN KEY (id_cliente) REFERENCES tb_cliente(id_cliente);
@@ -102,7 +105,7 @@ GO
 
 /* P1 listar vendas mostrando o nome do cliente que comprou cada uma delas*/
 
-SELECT * from  tb_cliente as c JOIN tb_vendas as v 
+SELECT c.nome,v.id_venda from tb_cliente as c JOIN tb_vendas as v 
 on c.id_cliente = v.id_cliente;
 GO
 
@@ -119,6 +122,13 @@ h.id_hardware = v.id_hardware
 
 WHERE v.id_item is null
 
+GO
+
+SELECT * FROM tb_vendas
+
+SELECT * FROM tb_cliente
+
+SELECT * FROM tb_vendas_itens
 GO
 
 
