@@ -7,7 +7,7 @@ GO
 CREATE DATABASE lojainfo;
 GO
 
-USE lojainfo
+USE lojainfo;
 GO
 
 CREATE TABLE tb_cliente(
@@ -67,20 +67,59 @@ INSERT INTO tb_hardware VALUES
 ('processador', 300.50, 100, 10),
 ('placa mãe', 100.50, 100, 10),
 ('Dísco Rígido', 80.90, 100, 10),
-('monitor', 300.20, 100, 10); 
+('monitor', 300.20, 100, 10),
+('mouse',45.90,50,20);
 GO
+
 
 INSERT INTO tb_vendas VALUES
 (2,'2018/02/10', NULL),
 (3, '2018/02/20', 0.1);
 GO
 
+/*inserindo as vendas para ZEZINHO id = 2 id_venda = 1*/
 
 INSERT INTO tb_vendas_itens
 (id_venda,id_hardware,qtde_item,pco_vda) VALUES
-(3,4,10, 600.50),
-(3,5,10, 600.50),
-(3,,10, 600.50),
-(3,4,10, 600.50),
-(3,4,10, 600.50),
+(1,4,10, 600.50),
+(1,5,10, 3005),
+(1,2,10, 1050),
+(1,4,10, 809),
+(1,4,10, 3002);
+
+
+
+
+/*inserindo vendas para LUIZINHO id = 3 id_venda = 2*/
+INSERT INTO tb_vendas_itens
+(id_venda,id_hardware,qtde_item,pco_vda) VALUES
+(2,4,1, 60),
+(2,5,10, 300),
+(2,1,10, 101),
+(2,3,10, 80),
+(2,2,10, 300);
+GO
+
+/* P1 listar vendas mostrando o nome do cliente que comprou cada uma delas*/
+
+SELECT * from  tb_cliente as c JOIN tb_vendas as v 
+on c.id_cliente = v.id_cliente;
+GO
+
+/*p2 mostrar clientes que não fizeram compra nenhuma*/
+
+SELECT * FROM tb_cliente as c left join tb_vendas as v on c.id_cliente=v.id_cliente
+WHERE v.id_venda is null
+GO
+
+/*P3 produtos que não foram vendidos*/
+
+SELECT * FROM tb_hardware as h LEFT JOIN tb_vendas_itens as v on
+h.id_hardware = v.id_hardware
+
+WHERE v.id_item is null
+
+GO
+
+
 
