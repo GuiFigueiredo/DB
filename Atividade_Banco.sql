@@ -2,7 +2,6 @@ USE master
 GO
 
 DROP DATABASE lojainfo;
-GO
 
 CREATE DATABASE lojainfo;
 GO
@@ -28,13 +27,40 @@ qtde_atual int NOT NULL,
 qtde_minima int
 )
 GO
+
+
 CREATE TABLE tb_vendas(
 id_venda int PRIMARY KEY IDENTITY(1,1),
 id_cliente int NOT NULL,
 data date not null,
-desconto decimal (2,2)
+desconto decimal (2,2),
+venda_cancelada varchar(3) CHECK(venda_cancelada = 'SIM' OR venda_cancelada = '')
 )
+
 GO
+
+CREATE TRIGGER tgrInsertVendaCancelada ON tb_vendas
+FOR INSERT
+AS
+declare @idvenda int;
+declare @idcliente int;
+declare @desconto decimal(2,2);
+
+
+declare @venda_cancelada varchar(3);
+
+select @idvenda = i.id_venda from inserted i;
+select @idcliente =  i.id_cliente from inserted i;
+select @desconto = i.desconto from inserted i;
+
+
+set @venda_cancelada = 'SIM';
+
+INSERT INTO tb_vendas_canceladas(id_vendas,id_cliente,desconto,venda_cancelada)
+VALUES(@idvenda,@idcliente,@desconto,@venda_cancelada);
+
+GO
+
 CREATE TABLE tb_vendas_itens(
 id_item int PRIMARY KEY IDENTITY(1,1),
 id_venda int not null,
@@ -44,7 +70,12 @@ pco_vda decimal(8,2)not null
 )
 GO
 CREATE TABLE tb_vendas_canceladas (id_venda_cancelada INT PRIMARY KEY IDENTITY(1,1),
-id_vendas INT UNIQUE NOT NULL FOREIGN KEY REFERENCES tb_vendas(id_venda))
+id_vendas INT UNIQUE NOT NULL FOREIGN KEY REFERENCES tb_vendas(id_venda),
+id_cliente int NOT NULL,
+desconto decimal (2,2),
+venda_cancelada varchar(3),
+)
+
 GO
 
 ALTER TABLE tb_vendas ADD CONSTRAINT fk_vda_cli
@@ -76,8 +107,10 @@ GO
 
 
 INSERT INTO tb_vendas VALUES
-(2,'2018/02/10', NULL),
-(3, '2018/02/20', 0.1);
+(2,'2018/02/10', NULL,''),
+(3, '2018/02/20', 0.1,''),
+(4,'2018/8/25',0.1,''),
+(5,'2018/9/14', 0.1,'SIM');
 GO
 
 /*inserindo as vendas para ZEZINHO id = 2 id_venda = 1*/
@@ -129,6 +162,8 @@ SELECT * FROM tb_vendas
 SELECT * FROM tb_cliente
 
 SELECT * FROM tb_vendas_itens
+
+SELECT * FROM tb_vendas_canceladas
 GO
 
 
