@@ -47,6 +47,8 @@ GO
 
 INSERT INTO cliente  VALUES('zuleika','rua gianna','40028922');
 INSERT INTO cliente  VALUES('maria','rua joao','40008922');
+INSERT INTO cliente  VALUES('vinicius','rua zéngm','41488505');
+
 GO
 
 SELECT * FROM auditoria_cliente
